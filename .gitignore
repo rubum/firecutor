@@ -1,0 +1,43 @@
+# Firecracker specific
+/tmp/firecracker*
+*.socket
+*.log
+/rootfs.ext4
+/vmlinux.bin
+/rootfs.id_rsa*
+/id_rsa*
+/ubuntu-24.04.id_rsa*
+/ubuntu-24.04.ext4
+/ubuntu-24.04.squashfs*
+/squashfs-root/
+
+# Vagrant specific
+.vagrant/
+*.box
+Vagrantfile.local
+
+# Build artifacts
+/firecracker_src/
+/build/
+/release-*/
+
+# OS specific
+.DS_Store
+.Spotlight-V100
+.Trashes
+._*
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs and temp files
+*.log
+*.tmp
+/tmp/
+
+# Dependencies
+/node_modules/
