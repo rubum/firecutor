@@ -116,29 +116,29 @@ rm -f /tmp/firecracker.sock
 
 # Start Firecracker
 echo "[$(date)] Launching Firecracker microVM..."
-/opt/firecracker/firecracker --api-sock /tmp/firecracker.sock --config-file /tmp/firecracker_config.json &
-FIRECRACKER_PID=$!
+/opt/firecracker/firecracker --api-sock /tmp/firecracker.sock --config-file /tmp/firecracker_config.json 
+# & FIRECRACKER_PID=$!
 echo "[$(date)] Firecracker started with PID: $FIRECRACKER_PID"
 
-# Wait for Firecracker to start
-sleep 2
+# # Wait for Firecracker to start
+# sleep 2
 
-# Run a command inside the container with proper error handling
-echo "[$(date)] Running a command inside the container..."
-if ! ssh -v -o ConnectTimeout=5 \
-       -o StrictHostKeyChecking=no \
-       -o PasswordAuthentication=no \
-       -o BatchMode=yes \
-       -i /opt/firecracker/rootfs.id_rsa \
-       root@172.16.0.2 "python --version && elixir --version"; then
-    echo "[$(date)] ERROR: Failed to connect to the microVM"
-    # Check SSH key permissions
-    chmod 600 /opt/firecracker/rootfs.id_rsa
-    echo "[$(date)] Fixed SSH key permissions, retrying..."
-    ssh -v -o ConnectTimeout=5 \
-        -o StrictHostKeyChecking=no \
-        -o PasswordAuthentication=no \
-        -o BatchMode=yes \
-        -i /opt/firecracker/rootfs.id_rsa \
-        root@172.16.0.2 "python --version && elixir --version"
-fi
+# # Run a command inside the container with proper error handling
+# echo "[$(date)] Running a command inside the container..."
+# if ! ssh -v -o ConnectTimeout=5 \
+#        -o StrictHostKeyChecking=no \
+#        -o PasswordAuthentication=no \
+#        -o BatchMode=yes \
+#        -i /opt/firecracker/rootfs.id_rsa \
+#        root@172.16.0.2 "python --version && elixir --version"; then
+#     echo "[$(date)] ERROR: Failed to connect to the microVM"
+#     # Check SSH key permissions
+#     chmod 600 /opt/firecracker/rootfs.id_rsa
+#     echo "[$(date)] Fixed SSH key permissions, retrying..."
+#     ssh -v -o ConnectTimeout=5 \
+#         -o StrictHostKeyChecking=no \
+#         -o PasswordAuthentication=no \
+#         -o BatchMode=yes \
+#         -i /opt/firecracker/rootfs.id_rsa \
+#         root@172.16.0.2 "python --version && elixir --version"
+# fi

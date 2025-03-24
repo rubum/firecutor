@@ -6,7 +6,7 @@ CONTAINER_DIR="container"
 mkdir -p $CONTAINER_DIR
 cd $CONTAINER_DIR || {
   echo "[$(date)] ERROR: Failed to create or access container directory"
-  exit 1  # Fixed typo: removed 'x'
+  exit 1
 }
 
 # Build the Docker image with error checking
