@@ -27,6 +27,23 @@ echo "[$(date)] Set KVM device permissions to 666"
 mkdir -p /tmp/firecracker/logs
 chmod 777 /tmp/firecracker/logs
 
+# Generate and configure SSH keys
+echo "[$(date)] Setting up SSH keys..."
+ssh-keygen -t rsa -f /opt/firecracker/rootfs.id_rsa -N "" -C "root@firecracker"
+mkdir -p /opt/firecracker/ssh_config
+cp /opt/firecracker/rootfs.id_rsa.pub /opt/firecracker/ssh_config/authorized_keys
+chmod 600 /opt/firecracker/rootfs.id_rsa
+
+# Mount and configure rootfs
+echo "[$(date)] Configuring rootfs SSH access..."
+mkdir -p /mnt/rootfs
+mount -o loop /opt/firecracker/rootfs.ext4 /mnt/rootfs
+mkdir -p /mnt/rootfs/root/.ssh
+cp /opt/firecracker/ssh_config/authorized_keys /mnt/rootfs/root/.ssh/
+chmod 700 /mnt/rootfs/root/.ssh
+chmod 600 /mnt/rootfs/root/.ssh/authorized_keys
+umount /mnt/rootfs
+
 # Clean up any existing socket and log files
 rm -f /tmp/firecracker.sock
 rm -f /tmp/firecracker/logs/firecracker.log
