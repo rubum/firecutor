@@ -2,7 +2,7 @@
 set -e
 
 echo "[$(date)] Creating container build directory..."
-CONTAINER_DIR="/vagrant/container"
+CONTAINER_DIR="container"
 mkdir -p $CONTAINER_DIR
 cd $CONTAINER_DIR || {
   echo "[$(date)] ERROR: Failed to create or access container directory"

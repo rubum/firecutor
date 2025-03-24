@@ -2,17 +2,17 @@
 set -e
 
 echo "[$(date)] Preparing root filesystem for Firecracker..."
-cd /opt/firecracker
+# cd /opt/firecracker
 
 # Verify Docker image exists
-if [ ! -f /vagrant/container/python-elixir-container.tar ]; then
+if [ ! -f container/python-elixir-container.tar ]; then
   echo "[$(date)] ERROR: Docker image tar file not found"
   exit 1
 fi
 
 # Load the Docker image
 echo "[$(date)] Loading Docker image..."
-if ! docker load -i /vagrant/container/python-elixir-container.tar; then
+if ! docker load -i container/python-elixir-container.tar; then
   echo "[$(date)] ERROR: Failed to load Docker image"
   exit 1
 fi

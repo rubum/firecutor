@@ -33,11 +33,11 @@ fi
 
 # Set permissions using both methods
 # 1. Group-based permissions
-usermod -aG kvm vagrant
-chmod a+rw /dev/kvm
+# usermod -aG kvm vagrant
+# chmod a+rw /dev/kvm
 
-# 2. ACL-based permissions (as a fallback)
-setfacl -m u:vagrant:rw /dev/kvm
+# # 2. ACL-based permissions (as a fallback)
+# setfacl -m u:vagrant:rw /dev/kvm
 
 # Verify KVM is working
 if [ -r /dev/kvm ] && [ -w /dev/kvm ]; then
