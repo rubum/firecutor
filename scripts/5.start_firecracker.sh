@@ -37,11 +37,14 @@ chmod 600 /opt/firecracker/rootfs.id_rsa
 # Mount and configure rootfs
 echo "[$(date)] Configuring rootfs SSH access..."
 mkdir -p /mnt/rootfs
-mount -o loop /opt/firecracker/rootfs.ext4 /mnt/rootfs
-mkdir -p /mnt/rootfs/root/.ssh
+mount -t ext4 /opt/firecracker/rootfs.ext4 /mnt/rootfs
+mkdir -p /mnt/rootfs/root/.ssh /mnt/rootfs/etc/ssh
 cp /opt/firecracker/ssh_config/authorized_keys /mnt/rootfs/root/.ssh/
+touch /mnt/rootfs/etc/ssh/ssh_known_hosts
 chmod 700 /mnt/rootfs/root/.ssh
 chmod 600 /mnt/rootfs/root/.ssh/authorized_keys
+chmod 644 /mnt/rootfs/etc/ssh/ssh_known_hosts
+sync
 umount /mnt/rootfs
 
 # Clean up any existing socket and log files

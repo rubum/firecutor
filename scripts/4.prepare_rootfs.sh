@@ -53,6 +53,20 @@ if ! tar -xf /tmp/container.tar -C "$MOUNT_DIR"; then
   exit 1
 fi
 
+# Verify Elixir installation
+echo "[$(date)] Verifying Elixir installation..."
+if ! chroot "$MOUNT_DIR" which elixir > /dev/null; then
+  echo "[$(date)] ERROR: Elixir binary not found in rootfs"
+  umount "$MOUNT_DIR"
+  exit 1
+fi
+
+if ! chroot "$MOUNT_DIR" elixir --version > /dev/null; then
+  echo "[$(date)] ERROR: Elixir installation appears to be broken"
+  umount "$MOUNT_DIR"
+  exit 1
+fi
+
 # Cleanup
 umount "$MOUNT_DIR"
 rm -rf "$MOUNT_DIR"
