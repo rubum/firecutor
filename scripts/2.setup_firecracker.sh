@@ -49,8 +49,12 @@ fi
 
 # Install Firecracker
 FIRECRACKER_VERSION="v1.11.0"
-mkdir -p /opt/firecracker
-cd /opt/firecracker
+FIRECRACKER_DIR="/opt/firecracker"
+BUILD_DIR="/tmp/firecracker_build"
+
+# Create build directory
+mkdir -p "$BUILD_DIR"
+cd "$BUILD_DIR"
 
 # Clean up existing socket and directories
 rm -f /tmp/firecracker.sock
@@ -63,7 +67,11 @@ systemctl start docker
 
 # Set architecture and copy binary
 ARCH="x86_64"
-cp ./firecracker_src/build/cargo_target/${ARCH}-unknown-linux-musl/debug/firecracker /opt/firecracker/firecracker
+mkdir -p "$FIRECRACKER_DIR"
+cp ./firecracker_src/build/cargo_target/${ARCH}-unknown-linux-musl/debug/firecracker "$FIRECRACKER_DIR/"
+
+# Change to Firecracker directory for remaining operations
+cd "$FIRECRACKER_DIR"
 
 # Generate SSH key for rootfs access (with force overwrite)
 rm -f rootfs.id_rsa*
