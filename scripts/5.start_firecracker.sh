@@ -108,7 +108,20 @@ sleep 2
 
 # Run a command inside the container with proper error handling
 echo "[$(date)] Running a command inside the container..."
-if ! ssh -o ConnectTimeout=5 -o StrictHostKeyChecking=no -i /opt/firecracker/rootfs.id_rsa root@172.16.0.2 "python --version && elixir --version"; then
+if ! ssh -v -o ConnectTimeout=5 \
+       -o StrictHostKeyChecking=no \
+       -o PasswordAuthentication=no \
+       -o BatchMode=yes \
+       -i /opt/firecracker/rootfs.id_rsa \
+       root@172.16.0.2 "python --version && elixir --version"; then
     echo "[$(date)] ERROR: Failed to connect to the microVM"
-    exit 1
+    # Check SSH key permissions
+    chmod 600 /opt/firecracker/rootfs.id_rsa
+    echo "[$(date)] Fixed SSH key permissions, retrying..."
+    ssh -v -o ConnectTimeout=5 \
+        -o StrictHostKeyChecking=no \
+        -o PasswordAuthentication=no \
+        -o BatchMode=yes \
+        -i /opt/firecracker/rootfs.id_rsa \
+        root@172.16.0.2 "python --version && elixir --version"
 fi
